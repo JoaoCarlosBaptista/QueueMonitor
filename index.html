@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+    <script type="text/javascript" src="smoothie.js"></script>
+    <script type="text/javascript">
+      // Randomly add a data point every 500ms
+      var random = new TimeSeries();
+      setInterval(function() {
+            var value = Math.trunc(Math.random() * 10000);
+            random.append(new Date().getTime(), value);
+            document.getElementById("queueLenght").innerText = value;
+      }, 1000);
+      
+      function createTimeline() {
+        var chart = new SmoothieChart(
+            { 
+                grid:{ fillStyle:'#ffffff',strokeStyle:'#cbcecf', sharpLines:true },
+                labels:{ disabled: true }
+
+            }
+        );
+        chart.addTimeSeries(random, { strokeStyle: '#35cac2', lineWidth: 2 });
+        chart.streamTo(document.getElementById("chart"), 1000);
+      }
+    </script>
+    <style>
+        body{
+            margin:10px;
+            font-family: 'Titillium Web', sans-serif;
+        }
+       
+        .block{
+            display:inline-block;
+            width: 300px;
+            height: 150px;
+
+            position: absolute;
+
+        }
+        h1{
+            font-size: 50px;
+            text-align: center;
+            color: #35cac2;
+        }
+        h2{
+            font-size: 15px;
+            text-align: center;
+            color: #888888;
+        }
+    </style>
+  </head>
+  <body onload="createTimeline()" >
+    <canvas id="chart" width="800" height="150" ></canvas>
+    <div class="block">
+        <h2>QUEUE LENGTH</h2>
+        <h1 id="queueLenght">0</h1>
+    </div>
+  </body>
+</html>
